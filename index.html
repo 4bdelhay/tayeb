@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tayeb M9awed</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+      /* created by Abdelhay, because i can't sleep and i already finished my daily work */
+    body {
+      background-color: #000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .movingName {
+      position: absolute;
+      font-size: 1.5em; 
+      font-weight: bold;
+      color: white;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .movingName {
+        font-size: 2em; 
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .movingName {
+        font-size: 2.5em; 
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const colors = ["#e74c3c", "#8e44ad", "#3498db", "#27ae60", "#f39c12", "#d35400", "#2ecc71", "#1abc9c", "#ffffff"];
+    const nameCount = 60; 
+    const names = [];
+
+    
+    for (let i = 0; i < nameCount; i++) {
+      const div = document.createElement("div");
+      div.className = "movingName";
+      div.textContent = "Tayeb M9awed";
+      div.style.color = colors[Math.floor(Math.random() * colors.length)];
+      div.style.top = `${Math.random() * window.innerHeight}px`;
+      div.style.left = `${Math.random() * window.innerWidth}px`;
+      document.body.appendChild(div);
+
+     
+      names.push({
+        element: div,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        dx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+        dy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+      });
+    }
+
+    function animate() {
+      names.forEach((name) => {
+        
+        name.x += name.dx;
+        name.y += name.dy;
+
+        
+        if (name.x <= 0 || name.x + name.element.offsetWidth >= window.innerWidth) {
+          name.dx *= -1;
+        }
+        if (name.y <= 0 || name.y + name.element.offsetHeight >= window.innerHeight) {
+          name.dy *= -1;
+        }
+
+       
+        name.element.style.transform = `translate(${name.x}px, ${name.y}px)`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    
+    window.addEventListener("resize", () => {
+      names.forEach((name) => {
+        name.x = Math.min(name.x, window.innerWidth - name.element.offsetWidth);
+        name.y = Math.min(name.y, window.innerHeight - name.element.offsetHeight);
+      });
+    });
+
+   
+    animate();
+  </script>
+</body>
+</html>
